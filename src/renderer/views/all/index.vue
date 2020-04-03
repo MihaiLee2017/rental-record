@@ -1,7 +1,7 @@
 <template>
     <el-container class="room-container">
         <el-aside width="300px" class="room-aside">
-            <el-tree :data="data" node-key="id" default-expand-all :highlight-current="true" @node-click="nodeClick">
+            <el-tree :data="data" node-key="id" default-expand-all :expand-on-click-node="false" :highlight-current="true" @node-click="nodeClick">
                 <!-- <span class="custom-tree-node" slot-scope="{ node, data }">
                     <span>{{ node.label }}</span>
                     <span>
@@ -81,6 +81,37 @@
                         </el-form-item>
                     </el-form>
                 </section>
+                <section v-if="type==3">
+                    <el-form ref="form" :model="tenantParams" label-width="80px" :disabled="!isEdit">
+                        <!-- <el-form-item label="房间号">
+                            <el-input v-model="roomParams.name"></el-input>
+                        </el-form-item> -->
+                        <el-form-item label="月份">
+                            <el-date-picker v-model="costParams.month" value-format="yyyy-MM" type="month" placeholder="选择月份">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="租金">
+                            <el-input v-model="costParams.rent"></el-input>
+                        </el-form-item>
+                        <el-form-item label="交租时间">
+                            <el-date-picker v-model="costParams.leaseTime" value-format="yyyy-MM-DD" type="date" placeholder="选择日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="是否准时">
+                            <el-radio-group v-model="costParams.onTime">
+                                <el-radio :label="true">准时</el-radio>
+                                <el-radio :label="false">预期</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="其他">
+                            <el-input v-model="costParams.other"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submit(costParams,costLabel)">提交</el-button>
+                            <el-button @click="cancleHandle">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </section>
             </el-main>
         </el-container>
     </el-container>
@@ -97,6 +128,7 @@ export default {
       type: 0,
       roomParams: {},
       tenantParams: {},
+      costParams: {},
       typeList: TypeList,
       roomList: RoomList,
       key: 'room',
@@ -113,6 +145,12 @@ export default {
         this.tenantParams.leaseTime.join(' 至 ') +
         '）'
       )
+    },
+    costLabel() {
+      const str = `${this.costParams.month}（${
+        this.costParams.onTime ? '准时' : '预期'
+      }）`
+      return str
     }
   },
   mounted() {
