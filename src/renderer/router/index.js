@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: 'room-page',
+    redirect: 'all-page',
     meta: { title: '租赁记录' },
     children: [
       // {
@@ -15,33 +15,33 @@ const routes = [
       //   name: 'Room-Page',
       //   component: () => import('@/views/room'),
       //   meta: {
-      //     title: '房间列表'
-      //   }
+      //     title: '房间列表',
+      //   },
       // },
       // {
       //   path: 'tenant-page',
       //   name: 'Tenant-Page',
       //   component: () => import('@/views/tenant'),
       //   meta: {
-      //     title: '租赁记录'
-      //   }
+      //     title: '租赁记录',
+      //   },
       // },
       {
         path: 'all-page',
         name: 'All-Page',
         component: () => import('@/views/all'),
         meta: {
-          title: '房间记录'
-        }
-      }
-    ]
+          title: '房间记录',
+        },
+      },
+    ],
   },
   {
     path: '*',
-    redirect: '/'
-  }
+    redirect: '/',
+  },
 ]
 export const MenuList = routes
 export default new Router({
-  routes
+  routes,
 })
